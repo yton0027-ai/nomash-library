@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "dbaeumer.vscode-eslint",
+<<<<<<< HEAD
+=======
+    "EditorConfig.EditorConfig",
+    "oxc.oxc-vscode",
+>>>>>>> d921786ee9634af64d179da4a7f1b7da19a9ab04
+    "esbenp.prettier-vscode"
+  ]
+}

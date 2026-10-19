@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// firebase.json 里指定了这个文件，但仓库里一直没有它，
+// 导致 `firebase deploy --only firestore` 会报错找不到文件。
+// 下面的规则按现有代码的实际用法写的：
+//   - BookList.vue 读 books 集合，不检查登录状态 → 允许任何人读
+//   - AddBookView.vue 往 books 集合里 addDoc，也不检查登录状态 → 允许任何人新增
+//   - 代码里没有 update/delete 操作 → 先禁止，免得被人乱改/乱删
+// 这是按"现状"迁移过来的宽松规则，不是生产环境该有的样子；
+// 之后给 addbook 页面加上登录校验后，建议把 allow create 收紧成
+// `allow create: if request.auth != null;`
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /books/{bookId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
